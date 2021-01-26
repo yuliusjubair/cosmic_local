@@ -1,0 +1,116 @@
+﻿.styled-label {
+	float: left;
+	display: inline;
+	background: transparent;
+	padding: 10px;
+	font-size: 12px;
+	line-height: 1;
+	border: 0;
+	border-radius: 0;
+	height: 32px;
+	top:50%;
+	-webkit-appearance: none;
+   }
+.styled-select {
+	margin-left:5px;
+	float: left;
+	display: inline;
+	width: 300px;
+	height: 32px;
+	overflow: hidden;
+
+	background: url(../images/uniform_select.png) no-repeat scroll right center / 32px 32px #FFFFFF !important;
+	border: 0px solid black;
+   }
+  .styled-select select {
+   background: transparent;
+   width: 328px;
+   padding: 5px;
+   font-size: 12px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 32px;
+
+   -webkit-appearance: none;
+   }
+.styled-selectproyek {
+	margin-left:5px;
+	float: left;
+	display: inline;
+	width: 340px;
+	height: 32px;
+	overflow: hidden;
+
+	background: url(../images/uniform_select.png) no-repeat scroll right center / 32px 32px #FFFFFF !important;
+	border: 0px solid black;
+   }
+  .styled-selectproyek select {
+   background: transparent;
+   width: 368px;
+   padding: 5px;
+   font-size: 12px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 32px;
+
+   -webkit-appearance: none;
+   }
+.styled-selectpersen select {
+   background: transparent;
+   width: 168px;
+   padding: 5px;
+   font-size: 12px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 32px;
+   -webkit-appearance: none;
+   }
+.styled-selectpersen {
+	margin-left:5px;
+	float: left;
+	display: inline;
+	width: 140px;
+	height: 32px;
+	overflow: hidden;
+	background: url(../images/uniform_select.png) no-repeat scroll right center / 32px 32px #FFFFFF !important;
+	border: 0px solid black;
+   }
+.styled-selectthn select {
+   background: transparent;
+   width: 108px;
+   padding: 5px;
+   font-size: 12px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 32px;
+   -webkit-appearance: none;
+   }
+.styled-selectthn {
+	margin-left:0px;
+	float: left;
+	display: inline;
+   width: 80px;
+   height: 32px;
+   overflow: hidden;
+   background: url(../images/uniform_select.png) no-repeat scroll right center / 32px 32px #FFFFFF !important;
+	border: 0px solid black;
+   }
+ .styled-loader {
+	position: fixed;
+	left: 48%;
+    top: 25%;
+    display: none;
+    background: transparent url("../images/busy.gif") no-repeat;
+    z-index: 1000;
+    height: 49px;
+    width: 49px;
+}
+.styled-loader div {
+background: #FFFFFF;
+    width: 100%;
+    height: 100%;        
+}

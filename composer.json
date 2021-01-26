@@ -1,0 +1,13 @@
+{
+    "require": {
+	    "php": ">=7.0",
+        "treinetic/imageartist": "^1.0",
+        "mikey179/vfsStream": "1.1.*",
+        "setasign/fpdf": "1.8.1",
+        "seunmatt/codeigniter-log-viewer": "^1.1",
+        "phpoffice/phpspreadsheet": "^1.14",
+        "nesbot/carbon": "^2.41",
+        "endroid/qr-code": "^3.9",
+        "mpdf/mpdf": "^8.0"
+    }
+}
