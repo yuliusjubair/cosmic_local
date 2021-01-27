@@ -153,18 +153,24 @@
 						echo '<li class="dropdown active">' ;
 					} else {
 						echo '<li class="dropdown">' ;
-					}
-					if($row->menu_id=='2'){
-						$icon = 'fa-fire';
-					}elseif($row->menu_id=='7'){
-						$icon = 'fa-file-excel';
-					}else{
-						$icon = $row->imgref;
-					}
-					echo '<a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+					}										
 
-								<i class="fas '.$icon.' mr-20"></i>
-								<span class="menu-text">
+					$icon = $row->imgref;
+					if ($title != "Monitoring Usage"){
+						if($row->menu_id=='2'){
+							$icon = 'fa-fire';
+						}elseif($row->menu_id=='7'){
+							$icon = 'fa-file-excel';
+						}
+						$icon_image = '<i class="fas '.$icon.' mr-20"></i>';
+					}else{
+						$icon_image = '<img src="'.base_url().'assets/images/icons/'.$icon.'" class="mr-2 ml-2"/>';
+					}
+
+					$dropdown = $title == "Monitoring Usage" ? "" : "has-dropdown";
+					echo '<a href="#" class="nav-link '.$dropdown.'" data-toggle="dropdown">'
+								.$icon_image.
+								'<span class="menu-text">
 								 '.$row->nameref.' </span>
 
 								<!--b class="arrow fa fa-angle-down"></b-->
@@ -177,14 +183,15 @@
 		   ?>
 			
 	   
-	           
-		<li class="active">
-			<a href="<?php echo base_url().''.$row->menu_url; ?>" class="nav-link">
-				<!-- <i class="menu-icon fa fa-caret-right"></i> -->
-				<?php echo $row->menu_name; ?>
-			</a>
-			<b class="arrow"></b>
-		</li>
+	    <?php if ($title != "Monitoring Usage"){?>
+			<li class="active">
+				<a href="<?php echo base_url().''.$row->menu_url; ?>" class="nav-link">
+					<!-- <i class="menu-icon fa fa-caret-right"></i> -->
+					<?php echo $row->menu_name; ?>
+				</a>
+				<b class="arrow"></b>
+			</li>	    	
+	    <?php } ?>
 	<?php 
 		} 
 		

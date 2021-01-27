@@ -86,25 +86,25 @@ class Companyatestasi_model extends CI_Model {
     }
     public function getlistcard_riwayatpengajuan_bymcid($mc_id){
         $sql = "
-           (SELECT 1 id, 'Total Pengajuan Layanan' judul,
+            (SELECT 1 id, 'Total Pengajuan Layanan' judul,
             COUNT(*) jml
-            FROM view_riwayat_pengajuan
-            WHERE mc_id='$mc_id')
+            FROM table_pengajuan_atestasi
+            WHERE tbpa_mc_id='$mc_id')
             UNION ALL
             (SELECT 2 id, 'Pengajuan diproses' judul,
             COUNT(*) jml
-            FROM view_riwayat_pengajuan
-            WHERE mc_id='$mc_id' AND status_id = 3)
+            FROM table_pengajuan_atestasi
+            WHERE tbpa_mc_id='$mc_id' AND tbpa_status = 3)
             UNION ALL
             (SELECT 3 id, 'Pengajuan ditolak' judul,
             COUNT(*) jml
-            FROM view_riwayat_pengajuan
-            WHERE mc_id='$mc_id' AND status_id = 4)
+            FROM table_pengajuan_atestasi
+            WHERE tbpa_mc_id='$mc_id' AND tbpa_status = 4)
             UNION ALL
             (SELECT 4 id, 'Pengajuan disetujui' judul,
             COUNT(*) jml
-            FROM view_riwayat_pengajuan
-            WHERE mc_id='$mc_id' AND status_id = 1)
+            FROM table_pengajuan_atestasi
+            WHERE tbpa_mc_id='$mc_id' AND tbpa_status = 1)
             ";
         $row = $this->db_read->query($sql);
         return $row;

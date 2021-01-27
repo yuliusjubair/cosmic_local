@@ -127,7 +127,7 @@
             "serverSide": true, 
             //"ordering": false,
             "ajax": {
-                "url": "<?php echo site_url('registercompany/get_company')?>",
+                "url": "<?php echo site_url('RegisterCompany/get_company')?>",
                 "type": "POST"
             },
              "lengthMenu": [[10, 100, -1], [10, 100, "All"]],
@@ -149,7 +149,7 @@
         $('#table_company tbody').on('click', 'tr', function () {
             var data = table.row( this ).data();
             block();
-            window.location.href="<?php echo site_url('registercompany/detail')?>/"+data[6];
+            window.location.href="<?php echo site_url('RegisterCompany/detail')?>/"+data[6];
         });
 
         $('#tbl_perusahaanbyprovinsi').DataTable({ 
@@ -165,7 +165,7 @@
             "scrollY": '50vh',
             "scrollCollapse": true,
             "ajax": {
-                "url": "<?php echo base_url().'registercompany/ajax_perusahaan_byprovinsi_all'?>/",
+                "url": "<?php echo base_url().'RegisterCompany/ajax_perusahaan_byprovinsi_all'?>/",
                 "type": "POST"
             },
             "order": [],
@@ -192,7 +192,7 @@
             "scrollY": '50vh',
             "scrollCollapse": true,
             "ajax": {
-                "url": "<?php echo base_url().'registercompany/ajax_perusahaan_byindustri_all'?>/",
+                "url": "<?php echo base_url().'RegisterCompany/ajax_perusahaan_byindustri_all'?>/",
                 "type": "POST"
             },
             //"order": [],
@@ -225,7 +225,7 @@
             //"sDom": "lfrti",
             "info": false,
             "ajax": {
-                "url": "<?php echo base_url().'registercompany/ajax_perusahaan_bypegawai'?>/",
+                "url": "<?php echo base_url().'RegisterCompany/ajax_perusahaan_bypegawai'?>/",
                 "type": "POST"
             },
             "order": [],
@@ -265,7 +265,7 @@ function refresh_tabel(status){
             "serverSide": true, 
             //"ordering": false,
             "ajax": {
-                "url": "<?php echo site_url('registercompany/get_company')?>/"+status,
+                "url": "<?php echo site_url('RegisterCompany/get_company')?>/"+status,
                 "type": "POST"
             },
              "lengthMenu": [[10, 100, -1], [10, 100, "All"]],

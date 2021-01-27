@@ -121,14 +121,7 @@ class Perimeter extends CI_Controller {
 	}
 
 	public function _do_upload_excel($mc_id) {
-		if(!is_dir("uploads/perimeter/")) {
-	        mkdir("uploads/perimeter/");
-	    }
 	    $config['upload_path']          = 'uploads/perimeter/';
-	    if(is_file($config['upload_path']))
-		{
-		    chmod($config['upload_path'], 777); ## this should change the permissions
-		}
 	    $config['allowed_types']        = 'xlsx|xls';
 	    $config['max_size']             = 10*1024; //set max size allowed in Kilobyte
 	    $config['file_name']            = round(microtime(true) * 1000); //just milisecond timestamp fot unique name

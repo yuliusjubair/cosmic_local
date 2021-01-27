@@ -16,12 +16,6 @@
     <link href="<?=base_url()?>assets/line-awesome/css/line-awesome.min.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/landing_style.css" rel="stylesheet">
-
-     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
- 
-   </head>
 </head>
 <body>
     <div class="site-mobile-menu site-navbar-target">
@@ -329,10 +323,9 @@
                 <div class="col-md-5 section-finding-part">
                     <h2 class="text-light mb-5 section-finding-title">Menemukan Pelanggaran Protokol?</h2>
                     <p class="text-light section-finding-content">Bantu kami memastikan semua pihak menjalankan protokol dengan baik</p>
-<!--   					<a href="http://103.146.244.139/cosmic_dev/reportprotokol/reportprotokol"> -->
-                  
-                    <button class="btn btn-danger px-4 py-2 mt-3 mb-3 rounded" onclick="open_lapor()">Laporkan Disini</button>
-<!--                     </a> -->
+  					<a href="http://103.146.244.139/cosmic_dev/reportprotokol/reportprotokol">
+                    <button class="btn btn-danger px-4 py-2 mt-3 mb-3 rounded">Laporkan Disini</button>
+                    </a>
                 </div>
                 <div class="col-md-5 offset-md-2">
                     <img src="<?=base_url('assets/images/img_finding_protocol.png')?>" alt="Images Focus"
@@ -393,126 +386,5 @@
     <script src="<?=base_url()?>assets/owl.carousel/owl.carousel.min.js"></script>
     <script src="<?=base_url()?>assets/jquery-sticky/jquery.sticky.js"></script>
     <script src="<?=base_url()?>assets/js/main_landing.js"></script>
-    
-<div class="modal modal2" id="modal_lapor" data-keyboard="false" data-backdrop="static">
-<div class="modal-dialog">
-<div class="modal-content">
-  	<div class="modal-body">
-          	<div class="form-body">
-            <div class="row">
-				<div class="col-sm-12">
-                	<div class="form-group">
-                        <label class="control-label col-sm-12">Nama Perusahaan</label>
-                        <div class="col-sm-12">
-                            <select id="company" name="company" style="width:100%" 
-                            	class="col-sm-12 select2">
-                              	<?php foreach ($company->result() as $row) { ?>
-                                <option value="<?php echo $row->mc_id;?>" >
-                        			<?php echo $row->mc_name;?>
-                        	    </option>
-                        		<?php } ?>
-                            </select>
-                            <span class="help-block"></span>
-                        </div>
-						<label class="control-label col-sm-12">Nama Perimeter</label>
-						<div class="col-sm-12">
-                       		<select id="perimeter" name="perimeter" style="width:100%" 
-                            	class="col-sm-12 select2">
-							</select>
-                            <span class="help-block"></span>
-                        </div>
-                        <input type="hidden" id="perimeter_link" name="perimeter_link" value=""/>
-                	</div>
-             	</div>
-             	<div class="col-sm-12">
-                    <div class="modal-footer justify-content-between"><div class="w-100">
-                        <button type="submit" class="btn btn-md btn-primary mr-auto " id="btnSave" onclick="lapor()">Lapor Pelanggaran Protokol</button>
-                        <button type="button" class="btn btn-md btn-danger" data-dismiss="modal" onclick="cancel()">Batal</button>
-                    </div></div>
-              	</div>
-             </div>
-             </div>
-  	</div>
-</div>
-</div>
-</div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-	$("#btnSave").prop("disabled",true);
-	$('#company').select2();
-	$('#perimeter').select2();
-	perimeter();
-	link_reportperimeter();
-});
-
-function open_lapor() {
-    $('#modal_lapor').modal('show');
-}
-
-$("#company").change(function(){ 
-    $("#perimeter").hide();
-    perimeter();
-	link_reportperimeter();
-});
-
-
-$("#perimeter").change(function(){ 
-	link_reportperimeter();
-});
-
-function perimeter(){
-	$.ajax({
-        type: "POST",
-        url: "<?php echo base_url(); ?>reportprotokol/perimeter",
-        data: {kd_perusahaan : $("#company").val()},
-        dataType: "json",
-        beforeSend: function(e) {
-            if(e && e.overrideMimeType) {
-                e.overrideMimeType("application/json;charset=UTF-8");
-            }
-        },
-        success: function(response){
-           	$("#perimeter").show();
-            $('#perimeter').html(response.list_perimeter);
-            link_reportperimeter();
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-        }
-    });
-}
-
-function link_reportperimeter(){
-    if( $("#perimeter").val()==null){
-    	$("#btnSave").prop("disabled",true);
-    }else{
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>landing/link_reportperimeter/",
-            data: {perimeter_id : $("#perimeter").val()},
-            dataType: "json",
-            beforeSend: function(e) {
-                if(e && e.overrideMimeType) {
-                    e.overrideMimeType("application/json;charset=UTF-8");
-                }
-            },
-            success: function(response){
-            	$("#btnSave").prop("disabled",false);
-        		$('#perimeter_link').val(response);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
-    }
-}
-
-function lapor(){
-	window.location.href = $('#perimeter_link').val();
-}
-
-
-</script>
 </body>
 </html>

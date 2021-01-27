@@ -20,7 +20,7 @@ class Mperimeter_model extends CI_Model {
         'mpml_ket'=>'asc');
 
     private function _get_datatables_query($mc_id) {
-        $this->db_read->select("mc_name, mr_name, mpm_id, mpm_name, mpro.mpro_name, mkab.mkab_name, COUNT(mpml_id) jml_lvl")
+        $this->db_read->select("mc_name, mr_name, mpm_id, mpm_name, mpro.mpro_name, mkab.mkab_name")
         ->from("master_perimeter mpm")
         ->join('master_region mr', 'mr.mr_id = mpm.mpm_mr_id')
         ->join('master_company mc', 'mc.mc_id = mr.mr_mc_id')

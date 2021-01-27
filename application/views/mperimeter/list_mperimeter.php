@@ -40,7 +40,6 @@
                 	<th>No. </th>
                     <th>Region</th>
                     <th>Perimeter</th>
-                    <th>Jumlah Lantai</th>
                     <th>Provinsi</th>
           					<th>Kabupaten</th>
                     <th>Detail</th>

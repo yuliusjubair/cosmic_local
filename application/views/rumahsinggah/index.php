@@ -27,17 +27,10 @@
       background-color: #ffa;
       cursor: pointer;
     }
-
-    .modal-footer2 {
-        padding: 15px;
-        text-align: center;
-        border-top: 1px solid #e5e5e5;
-    }
 </style>
 
 <body>
     <div class="row">
-        <input type="hidden" name="company" id="company" value="<?php echo $company_id?>">
         <div class="col-sm-6">
             <div class="form-group">
 				<select id="company" name="company" data-live-search="true" onchange="refresh_list()"
@@ -60,7 +53,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                     <button class="btn btn-success" onclick="add_rumahsinggah()">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Tambah Rumah Singgah</button>
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Tambah Data</button>
             </div>
         </div>
     </div>
@@ -73,7 +66,7 @@
                 <thead>
                     <tr>
                         <th>No. </th>
-                        <th>Nama Rumah Singgah</th>
+                        <th>Nama</th>
                         <th>Kota</th>
                         <th>Provinsi</th>
                         <th>Bayar</th>
@@ -113,19 +106,19 @@ function datatables(){
             "type": "POST"
         },
         "columnDefs": [
-            { "targets": 0, "orderable": false, "className": "text-center", },
-            { "targets": 1, "orderable": true, "className": "text-left", },
-            { "targets": 2, "orderable": true, "className": "text-left", },
-            { "targets": 3, "orderable": true, "className": "text-left", },
-            { "targets": 4, "orderable": true, "className": "text-left", },
+            { "targets": 0, "orderable": false, "className": "text-right", },
+            { "targets": 1, "orderable": false, "className": "text-left", },
+            { "targets": 2, "orderable": false, "className": "text-center", },
+            { "targets": 3, "orderable": false, "className": "text-left", },
+            { "targets": 4, "orderable": false, "className": "text-left", },
             { "targets": 5, "visible": false, "className": "text-left hidden", },
-            { "targets": 6, "orderable": false, "className": "text-right", },
+            { "targets": 6, "orderable": false, "className": "text-left", },
         ]
     });
      
      $('#table tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
-        //alert( 'You clicked on '+data[0]+'\'s row' );
+        alert( 'You clicked on '+data[0]+'\'s row' );
         window.location.href="<?php echo site_url('rumahsinggah/detail_rumahsinggah')?>/"+data[5];
     });
     //table.ajax.reload();
@@ -244,9 +237,9 @@ function save() {
                     $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
                     $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
                 }
-                $('#btnSave').text('Tambah Rumah Singgah');
-                //$('#btnSave').attr('disabled',false); 
-                //$('#form_modal')[0].reset();
+                $('#btnSave').text('Save');
+                $('#btnSave').attr('disabled',false); 
+                $('#form_modal')[0].reset();
             }
          unblock();
         },
@@ -324,7 +317,25 @@ function save() {
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                         
+                         <div class="form-group">
+                            <label class="control-label col-sm-6">Perimeter in Charge<span style="color:red">*</span></label>
+                            <div class="col-sm-12">
+                                <!-- <select name="pic" id="pic" class="form-control" >
+                                    <?php foreach ($pic as $itempic){ ?>
+                                        <option value="<?php echo $itempic->username; ?>"><?php echo $itempic->first_name; ?></option>
+                                    <?php } ?>
+                                </select> -->
+                                <input id="pic" name="pic" placeholder="Nama PIC" class="form-control" type="text" required>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6">No Kontak PIC<span style="color:red">*</span></label>
+                            <div class="col-sm-12">
+                                <input id="no_pic" name="no_pic" placeholder="No Kontak PIC" class="form-control" type="text" required>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-sm-6">Fasilitas Rumah<span style="color:red">*</span></label>
                            
@@ -425,47 +436,12 @@ function save() {
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <!-- <div class="form-group" id="photo-preview1" style="display:none;">
-                            <label class="control-label col-md-3">Photo</label>
-                            <div class="col-md-12">
-                                (No photo)
-                            </div>
-                        </div> -->
-                        <div class="form-group">
-                            <label class="control-label col-md-3" id="label-photo1">Upload Photo<span style="color:red">*</span></label>
-                            <div class="col-md-12">
-                                <input id="modal_foto_rumahsinggah2" name="modal_foto_rumahsinggah2" type="file">
-                                <font size="1" color="#800000">* Filtype yang diperbolehkan jpg, png dan max 2Mb</font>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-6">Perimeter in Charge<span style="color:red">*</span></label>
-                            <div class="col-sm-12">
-                                <!-- <select name="pic" id="pic" class="form-control" >
-                                    <?php foreach ($pic as $itempic){ ?>
-                                        <option value="<?php echo $itempic->username; ?>"><?php echo $itempic->first_name; ?></option>
-                                    <?php } ?>
-                                </select> -->
-                                <input id="pic" name="pic" placeholder="Nama PIC" class="form-control" type="text" required>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-6">No Kontak PIC<span style="color:red">*</span></label>
-                            <div class="col-sm-12">
-                                <input id="no_pic" name="no_pic" placeholder="No Kontak PIC" class="form-control" type="text" required>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer2">
-                <center>
-                    <button type="button" class="btn btn-md btn-primary" id="btnSave" onclick="save()" >Tambah Rumah Singgah</button>
-                </center>
-                <!-- <button type="button" class="btn btn-md btn-danger" data-dismiss="modal" onclick="cancel()">Cancel</button> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-primary" id="btnSave" onclick="save()" >Save</button>
+                <button type="button" class="btn btn-md btn-danger" data-dismiss="modal" onclick="cancel()">Cancel</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -105,7 +105,7 @@ class Registercompany extends CI_Controller {
         $this->secure();
         $data['user'] = $this->ion_auth->user()->row();
         $data['group']=$this->ion_auth->get_users_groups()->row()->id;
-        $data['row'] = $this->Companynonbumn_model->get_byid_detail($id);
+        $data['row'] = $this->Companynonbumn_model->get_byid($id);
         $data['cari']="";
         $data['title']="Registrasi Perusahaan";
         $data['subtitle']="Detail Perusahaan";

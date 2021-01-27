@@ -46,6 +46,44 @@ class Master_model extends CI_Model {
               return $menu;
     }
 
+    public function menus_monitoring_usage($group) {
+        $where='';
+        if ($group>1 && $group<=10){
+            if($group==2){
+                $mc_id = $this->ion_auth->user()->row()->mc_id;
+                $sql="SELECT mc_flag::int4
+                    FROM master_company
+                    WHERE mc_id='$mc_id'";
+                $mc_flag = (int)$this->db_read->query($sql)->row()->mc_flag;
+
+                $where.=" AND a.menu_id NOT IN (
+                        SELECT agnm_menu_id FROM app_group_notmenus
+                        WHERE agnm_group_id=$group
+                        AND agnm_flag=$mc_flag) ";
+
+            }
+            $where.=" AND a.menu_id in (
+                        SELECT agm_menu_id
+                        FROM app_groups_menus
+                        WHERE agm_groups_id=$group
+                    ) ";
+
+        }
+
+        $sql="SELECT a.menu_id, a.menu_name, b.nameref, b.imgref, a.menu_url, a.menu_image_baru as menu_image
+              FROM app_menus a
+              INNER JOIN
+                (SELECT menu_id as idref,menu_name as nameref,menu_image_baru as imgref
+                 FROM app_menus
+                 WHERE coalesce(menu_id_ref,0)=0) b on a.menu_id_ref=b.idref
+        	  WHERE a.menu_id IS NOT NULL
+              $where
+        	  ORDER BY b.idref, a.menu_id";
+
+              $menu=$this->db_read->query($sql);
+              return $menu;
+    }
+
     public function mst_groups($cari) {
         $sql="SELECT * FROM app_groups
               WHERE UPPER(name) LIKE UPPER('%$cari%')
@@ -241,14 +279,6 @@ class Master_model extends CI_Model {
         return $result;
     }
 
-    public function name_mst_kabupaten($cari) {
-        $sql="SELECT mkab_name as tag FROM master_kabupaten
-              WHERE UPPER(mkab_name) LIKE UPPER('%$cari%')
-              ORDER BY mkab_name ASC";
-        $result = $this->db_read->query($sql);
-        return $result;
-    }
-
     public function one_kabupaten($id) {
         $sql="SELECT * FROM master_kabupaten WHERE mkab_id='$id'";
         $result = $this->db_read->query($sql);
@@ -421,7 +451,7 @@ class Master_model extends CI_Model {
                 AND au.mc_id='$mc_id'";
         $result = $this->db_read->query($sql);
         return $result;
-    }
+    }    
 
     public function perimeter_bymcid($mc_id) {
         $sql="SELECT mr_id, mr_id, mpm_id, mpm_name FROM master_region mr
@@ -432,5 +462,53 @@ class Master_model extends CI_Model {
                 AND mpm.mpm_mc_id='$mc_id'";
         $result = $this->db_read->query($sql);
         return $result;
+    }
+
+    public function get_total_user_login(){
+        $sql="SELECT count(*) as count FROM app_users WHERE flag_login=1";
+        $result = $this->db_read->query($sql);
+        return $result->row()->count;
+    }
+
+    public function get_last_login($id){
+        $sql="SELECT id FROM app_users WHERE id='$id'";
+        $result = $this->db_read->query($sql);
+        return $result->row()->count;
+    }
+
+	public function get_bumn($id){
+        $sql="select count(mc_id) as count from app_users WHERE mc_id='$id' group by mc_id";
+        $result = $this->db_read->query($sql);
+        return $result->row()->count;
+    }   
+
+    public function get_fo(){
+    	$sql="select count(a.id) as count from app_users a inner join app_users_groups b ON a.id = b.user_id inner join app_groups c ON b.group_id = c.id WHERE b.group_id='4' AND a.flag_login = 1"; 
+        $result = $this->db_read->query($sql);
+        return $result->row()->count;
+    } 
+
+    public function get_pic(){
+    	$sql="select count(a.id) as count from app_users a inner join app_users_groups b ON a.id = b.user_id inner join app_groups c ON b.group_id = c.id WHERE b.group_id='3' AND a.flag_login = 1"; 
+        $result = $this->db_read->query($sql);
+        return $result->row()->count;
+    } 
+
+    public function get_chart_pic($opt = 3){
+    	$sql="SELECT a.tgl, count(c.group_id) FROM grafik_monitoring a INNER JOIN app_users b ON a.user_id = b.id INNER JOIN app_users_groups c ON a.user_id = c.user_id INNER JOIN app_groups d ON c.group_id =  d.id WHERE a.tgl > ('now'::date - '14 days'::interval)::date AND c.group_id = $opt GROUP BY a.tgl, c.group_id";
+        $result = $this->db_read->query($sql);
+        return json_encode($result->result());
+    } 
+
+    public function set_log_login($id){
+    	$now = date('Y-m-d');
+    	$sql="select count(user_id) from grafik_monitoring WHERE user_id='$id' and tgl='$now'"; 
+        $result = $this->db_read->query($sql);
+      	$count = $result->row()->count;
+
+      	if ($count == 0){
+	    	$sql="INSERT INTO grafik_monitoring (tgl, user_id) VALUES ('$now', '$id')";
+	        $this->db_cud->query($sql);      	  
+      	}
     }
 }

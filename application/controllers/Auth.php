@@ -13,7 +13,6 @@ class Auth extends CI_Controller {
 	}
 	
 	function index() {
-		header('Location:http://103.146.244.139/cosmic_dev');
 		if (!$this->ion_auth->logged_in()) {
 			redirect('auth/login', 'refresh');
 		} elseif (!$this->ion_auth->is_admin()) {
@@ -33,7 +32,7 @@ class Auth extends CI_Controller {
     }
 
 	function login() {
-	    $this->load->model('master_model');
+		$this->load->model('master_model');
 	    $this->data['title'] = "Login";
 	    $this->data['provinsi'] = $this->master_model->mst_provinsi($cari='')->result();
 	    $this->data['jenis_industri'] = $this->master_model->mst_jenis_industri($cari='')->result();
@@ -61,6 +60,7 @@ class Auth extends CI_Controller {
 	                }
 	                
 	                $this->session->set_flashdata('message', $this->ion_auth->messages());
+	                $this->ion_auth->set_after_login($userdata->id); //after login set flag 1
 	                if( $this->session->userdata('redirect_url') ) {
 	                    $redirect_url = $this->session->userdata('redirect_url');
 	                    $this->session->unset_userdata('redirect_url');
@@ -103,6 +103,7 @@ class Auth extends CI_Controller {
 
 	function logout() {
 		$this->data['title'] = "Logout";
+		$this->ion_auth->set_after_logout($this->session->userdata['user_id']);
 		$logout = $this->ion_auth->logout(); 
 		
 		$this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -112,14 +113,6 @@ class Auth extends CI_Controller {
 	//change password
 	function change_password()
 	{
-		$this->load->model('master_model');
-		$this->data['title']="User Page";
-	    $this->data['subtitle']="Ganti Password";
-	    $group = $this->ion_auth->get_users_groups()->row()->id;
-	    $this->data['group'] =$group;
-	    $this->data['user'] = $this->ion_auth->user()->row();
-	    $this->data['menu'] = $this->master_model->menus($group);
-	    $this->data['menu_hide']="yes";
 	    $this->form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
 	    $this->form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
 	    $this->form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
@@ -162,11 +155,7 @@ class Auth extends CI_Controller {
 	            'value' => $user->id,
 	        );
 	        //render
-	        // $this->_render_page('auth/change_password', $this->data);
-	        
-	        $this->load->view('header_tanpamenu',$this->data);
-		    $this->load->view('auth/change_password',$this->data);
-		    $this->load->view('footer',$this->data);
+	        $this->_render_page('auth/change_password', $this->data);
 	    }
 	    else
 	    {
@@ -185,10 +174,7 @@ class Auth extends CI_Controller {
 	        else
 	        {
 	            $this->session->set_flashdata('message', $this->ion_auth->errors());
-	            // redirect('auth/change_password', 'refresh');
-	            $this->load->view('header',$data);
-			    $this->load->view('auth/change_password',$data);
-			    $this->load->view('footer',$data);
+	            redirect('auth/change_password', 'refresh');
 	        }
 	    }
 	}
@@ -923,4 +909,3 @@ class Auth extends CI_Controller {
 	    $this->_render_page('auth/onboard', $this->data);    
 	}
 }
-

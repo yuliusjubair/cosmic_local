@@ -47,7 +47,7 @@
                         <select id="company" name="company" data-live-search="true"
                         	class="form-control selectpicker" data-style="btn-white btn-default" >
                             <?php foreach ($company->result() as $row) { ?>
-                            <option value="<?php echo $row->mc_id;?>">
+                            <option value="<?php echo $row->mc_id;?>" <?php echo $mc_selected;?>>
                     			<?php echo $row->mc_name;?>
                     	    </option>
                     		<?php } ?>
@@ -151,7 +151,7 @@ $(document).ready(function() {
         }
     });
 
-    //if($perimeter==null){
+    if($perimeter==null){
         $("#company").change(function(){ 
             $("#perimeter").hide();
             $.ajax({
@@ -228,7 +228,7 @@ $(document).ready(function() {
                 }
             });
         });
-    //}
+    }
 });
 
 function save() {

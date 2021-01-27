@@ -836,7 +836,7 @@ h5{padding:10px;}
 .lock_image{margin-bottom:20px; width:160px; height:200px; margin:auto; text-align:center;}	
 
 .registration{margin: 0 auto; padding: 20px 0;position: relative;text-align: center; width: 320px; margin-top:90px; border:2px solid #cccccc; border-radius:5px; padding:20px;background-color: #FFFFFF;}
-.error{font-size:130px; color:#333333; background:#F5F5F5; margin: 0 auto; padding: 20px 0;position: relative;text-align: center; width: 520px;  margin-top:90px; border-radius:5px;}
+.error{font-size:130px; color:#333333; background:#F5F5F5; margin: 0 auto; padding: 20px 0;position: relative;text-align: center; width: 320px;  margin-top:90px; border-radius:5px;}
 .error i{font-size:70px; padding:0px 20px 20px 20px!important;}
 .error_search{width:280px; margin:auto auto 20px auto;}
 .error500{font-size:130px; color:#fff; background:#333333; margin: 0 auto; padding: 20px 0;position: relative;text-align: center; width: 320px;  margin-top:90px; border-radius:5px;background: none repeat scroll 0 0 #F24F4F;}

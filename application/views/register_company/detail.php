@@ -135,7 +135,7 @@ function save() {
     $('#btnSave').attr('disabled',true);
     var url;
     block();
-    url = "<?php echo site_url('registercompany/update_verifikasi')?>";
+    url = "<?php echo site_url('RegisterCompany/update_verifikasi')?>";
     var formData = new FormData($('#form_modal')[0]);
     $.ajax({
         url : url,
@@ -186,7 +186,7 @@ function edit_username(username) {
     var username_lama = $('#modal_username').val();
     if(confirm('Apa Anda Yakin Ubah Username ?')) {
         $.ajax({
-            url : "<?php echo site_url('registercompany/update_username')?>/"+username+"/"+username_lama,
+            url : "<?php echo site_url('RegisterCompany/update_username')?>/"+username+"/"+username_lama,
             type: "POST",
             dataType: "JSON",
             success: function(data) {
@@ -202,7 +202,7 @@ function edit_username(username) {
 function reset_password(fs) {
     if(confirm('Apa Anda Yakin Reset Password untuk User '+fs+' ?')) {
         $.ajax({
-            url : "<?php echo site_url('registercompany/reset_password')?>/"+fs,
+            url : "<?php echo site_url('RegisterCompany/reset_password')?>/"+fs,
             type: "POST",
             dataType: "JSON",
             success: function(data) {
@@ -218,7 +218,7 @@ function reset_password(fs) {
 function hapus_perusahaan(mc_id, username) {
     if(confirm('Apa Anda Yakin Hapus Perusahaan ini ?')) {
         $.ajax({
-            url : "<?php echo site_url('registercompany/hapus_perusahaan')?>/"+mc_id+"/"+username,
+            url : "<?php echo site_url('RegisterCompany/hapus_perusahaan')?>/"+mc_id+"/"+username,
             type: "POST",
             dataType: "JSON",
             success: function(data) {
@@ -235,7 +235,7 @@ function hapus_perusahaan(mc_id, username) {
 function aktif_perusahaan(mc_id, username) {
     if(confirm('Apa Anda Yakin Aktifkan Perusahaan ini ?')) {
         $.ajax({
-            url : "<?php echo site_url('registercompany/aktif_perusahaan')?>/"+mc_id+"/"+username,
+            url : "<?php echo site_url('RegisterCompany/aktif_perusahaan')?>/"+mc_id+"/"+username,
             type: "POST",
             dataType: "JSON",
             success: function(data) {

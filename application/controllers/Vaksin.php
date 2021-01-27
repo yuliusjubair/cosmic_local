@@ -495,15 +495,7 @@ class Vaksin extends CI_Controller {
 	}
 	
 	public function _do_upload_excel($mc_id) {
-		if(!is_dir("uploads/vaksin_excel/")) {
-	        mkdir("uploads/vaksin_excel/");
-	    }
-
 	    $config['upload_path']          = 'uploads/vaksin_excel/';
-	    if(is_file($config['upload_path']))
-		{
-		    chmod($config['upload_path'], 777); ## this should change the permissions
-		}
 	    $config['allowed_types']        = 'xlsx|xls';
 	    $config['max_size']             = 10*1024;
 	    $config['file_name']            = round(microtime(true) * 1000);

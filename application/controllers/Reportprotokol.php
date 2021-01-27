@@ -61,7 +61,7 @@ class Reportprotokol extends CI_Controller {
     public function report($enc_mpmid){
         $crypt = new mxencryption();
         $mpm_id = $crypt->decrypt(strval($enc_mpmid));
-       // var_dump($enc_mpmid);die;
+        
         $data['tgl_now']=Date('Y-m-d');
         $data['cari']="";
         $data['title']="Report";
@@ -479,7 +479,7 @@ class Reportprotokol extends CI_Controller {
             $lists = "";
             
             foreach($perimeter->result() as $data){
-                $lists .= "<option value='".$data->mpm_id."' >".$data->mpm_name."</option>";
+                $lists .= "<option value='".$data->mpm_id."'  $selected>".$data->mpm_name."</option>";
             }
         }else{
             $lists = "";
@@ -496,7 +496,7 @@ class Reportprotokol extends CI_Controller {
             $lists = "";
         
             foreach($perimeter_level as $data){
-                $lists .= "<option value='".$data->mpml_id."'>".$data->mpml_name."</option>";
+                $lists .= "<option value='".$data->mpml_id."'  $selected>".$data->mpml_name."</option>";
             }
         }else{
             $lists = "";
@@ -507,15 +507,8 @@ class Reportprotokol extends CI_Controller {
     }
     
     public function perimeter_alamat($perimeter_id){
-
-        if($perimeter_id!=null or $perimeter_id!='null'){
-            $perimeter = $this->master_model->mst_perimeter($perimeter_id)->result();
-            
-            if(count($perimeter) >0){
-                $perimeter=$perimeter[0]->mpm_alamat;
-            }else{
-                $perimeter = "";
-            }
+        if($perimeter_id!=NULL){
+            $perimeter = $this->master_model->mst_perimeter($perimeter_id)->row()->mpm_alamat;
         }else{
             $perimeter = "";
         }

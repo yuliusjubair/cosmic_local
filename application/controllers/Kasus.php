@@ -421,15 +421,7 @@ class Kasus extends CI_Controller {
 	}
 
 	public function _do_upload_excel($mc_id) {
-
-		if(!is_dir("uploads/kasus/")) {
-	        mkdir("uploads/kasus/");
-	    }
 	    $config['upload_path']          = 'uploads/kasus/';
-	    if(is_file($config['upload_path']))
-		{
-		    chmod($config['upload_path'], 777); ## this should change the permissions
-		}
 	    $config['allowed_types']        = 'xlsx|xls';
 	    $config['max_size']             = 10*1024;
 	    $config['file_name']            = round(microtime(true) * 1000);

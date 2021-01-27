@@ -19,7 +19,7 @@ class Rumahsinggah extends CI_Controller {
 	
 	public function index() {
 	    $this->secure();
-		$data['user'] = $this->ion_auth->user()->row();
+	    $data['user'] = $this->ion_auth->user()->row();
 	    $data['tgl_now']=Date('Y-m-d');
 	    $data['cari']="";
 	    $data['title']="Rumah Singgah";
@@ -45,13 +45,13 @@ class Rumahsinggah extends CI_Controller {
 	    $data['status_kasus']=$this->master_model->mst_status_kasus($cari='');
 	    $data['kriteria']=$this->master_model->mst_kriteria_orang($cari='');
 	    $data['fasilitas_rumah']=$this->master_model->mst_fasilitas_rumah()->result();
-	    $data['company_id'] = $this->session->userdata('mc_id');
+	    
 	    $this->load->view('header',$data);
 	    $this->load->view('rumahsinggah/index',$data);
 	    $this->load->view('footer',$data);
 	}
 	
-	public function ajax_list($mc_id=NULL) {
+	public function ajax_list($mc_id) {
 	    $this->load->helper('url');	    
 	    $list = $this->rumahsinggah_model->get_datatables($mc_id);
 	    //echo $this->db->last_query();die;
@@ -109,7 +109,7 @@ class Rumahsinggah extends CI_Controller {
 	    $data['title']="Rumah Singgah";
 	    $data['subtitle']="Detail Rumah Singgah";
 	    $data['error']="";
-	    $data['menu_hide']="yes";
+	    //$data['menu_hide']="yes";
 
 	    $group = $this->ion_auth->get_users_groups()->row()->id;
 	    $sektor = $this->ion_auth->user()->row()->msc_id;
@@ -138,7 +138,7 @@ class Rumahsinggah extends CI_Controller {
 	
 	public function ajax_add() {
 	    date_default_timezone_set('Asia/Jakarta');
-	    $this->_validate();
+	    //$this->_validate();
 	    $data = array();
 	    $data['error_string'] = array();
 	    $data['inputerror'] = array();
@@ -153,8 +153,7 @@ class Rumahsinggah extends CI_Controller {
 	            exit();
 	        }
 	    }else{*/
-	    	// $kd_perusahaan = $this->input->post('kd_perusahaan_modal');
-	    	$kd_perusahaan = $this->session->userdata('mc_id');
+	    	$kd_perusahaan = $this->input->post('kd_perusahaan_modal');
 	        $nama = $this->input->post('nama');
 	        $alamat = $this->input->post('alamat');
 	        $provinsi = $this->input->post('provinsi');
@@ -185,27 +184,7 @@ class Rumahsinggah extends CI_Controller {
 	        }else{
 	            $file = NULL;
 	        }
-
-	        if ($_FILES['modal_foto_rumahsinggah2']['tmp_name']!='') {
-	            $file_name2 =$_FILES['modal_foto_rumahsinggah2']['name'];
-	            $file_ext2 =  pathinfo($file_name2, PATHINFO_EXTENSION);
-	            $file_tmp2= $_FILES['modal_foto_rumahsinggah2']['tmp_name'];
-	            $type2 = pathinfo($file_tmp2, PATHINFO_EXTENSION);
-	            $data2 = file_get_contents($file_tmp2);
-	            //$file = 'data:image/'.$type1.';base64,'.base64_encode($data1);
-	            $file2 = $file_name2;
-	        }else{
-	            $file2 = NULL;
-	        }
 	        
-	        
-	        if(!empty($file)){
-		        $this->_do_upload($kd_perusahaan, date('Y-m-d'), $file);
-		    }
-
-		    if(!empty($file2)){
-		        $this->_do_upload2($kd_perusahaan, date('Y-m-d'), $file2);
-		    }
 	       
 	        $user_id = $this->ion_auth->user()->row()->id;
 	        //set jenis kasus
@@ -240,13 +219,14 @@ class Rumahsinggah extends CI_Controller {
 	        	"biaya_ygdiperlukan" => $biaya,
 	        	"membayar" => $biaya_membayar,
 				"file" => $file,
-				"file2" => $file2,
 				"kriteria_id" => $set_kriteria,
 				"fas_rumah_id" => $set_fasilitas
 	        );
-	        $this->db->insert('table_rumahsinggah', $data);
 	        // echo"<pre>";print_r($data);echo"</pre>";die;
-	        
+	        $this->db->insert('table_rumahsinggah', $data);
+	        if(!empty($file)){
+		        $this->_do_upload($kd_perusahaan, date('Y-m-d'), $file);
+		    }
 	       /* $api_insert = $this->api_insert($user_id, $kd_perusahaan, $tanggal, $nama_kegiatan, $jenis_kegiatan,
 	            $deskripsi, $file_sosialisasi1, $file_sosialisasi2);*/
 	        $data = array('status'=>200,'message'=>'success');
@@ -277,33 +257,15 @@ class Rumahsinggah extends CI_Controller {
 	    $data['inputerror'] = array();
 	    $data['status'] = TRUE;
 	    
-	    if($this->input->post('nama') == '') {
-	        $data['inputerror'][] = 'nama';
-	        $data['error_string'][] = 'Nama Rumah Singgah is required';
+	    if($this->input->post('modal_kegiatan') == '') {
+	        $data['inputerror'][] = 'modal_kegiatan';
+	        $data['error_string'][] = 'Kegiatan is required';
 	        $data['status'] = FALSE;
 	    }
 	    
-	    if($this->input->post('alamat') == '') {
-	        $data['inputerror'][] = 'alamat';
-	        $data['error_string'][] = 'Alamat is required';
-	        $data['status'] = FALSE;
-	    }
-
-	    if($this->input->post('kabupaten') == '') {
-	        $data['inputerror'][] = 'kabupaten';
-	        $data['error_string'][] = 'Kota/Kabupaten is required';
-	        $data['status'] = FALSE;
-	    }
-
-	    if($this->input->post('kapasitas') == '') {
-	        $data['inputerror'][] = 'kapasitas';
-	        $data['error_string'][] = 'Kapasitas is required';
-	        $data['status'] = FALSE;
-	    }
-
-	    if($this->input->post('pic') == '') {
-	        $data['inputerror'][] = 'pic';
-	        $data['error_string'][] = 'PIC is required';
+	    if($this->input->post('modal_tgl') == '') {
+	        $data['inputerror'][] = 'modal_tgl';
+	        $data['error_string'][] = 'Tanggal is required';
 	        $data['status'] = FALSE;
 	    }
 
@@ -327,15 +289,15 @@ class Rumahsinggah extends CI_Controller {
 	        mkdir("uploads/rumahsinggah/");
 	    }
 
-	    /*if(!is_dir("uploads/rumahsinggah/".$mc_id)) {
+	    if(!is_dir("uploads/rumahsinggah/".$mc_id)) {
 	        mkdir("uploads/rumahsinggah/".$mc_id);
 	        
 	        if(!is_dir("uploads/rumahsinggah/".$mc_id."/".$tanggal)) {
 	            mkdir("uploads/rumahsinggah/".$mc_id."/".$tanggal);
 	        }
-	    }*/
+	    }
 	    
-	    $config['upload_path']          = 'uploads/rumahsinggah/';
+	    $config['upload_path']          = 'uploads/rumahsinggah/'.$mc_id.'/'.$tanggal.'/';
 	    if(is_file($config['upload_path']))
 		{
 		    chmod($config['upload_path'], 777); ## this should change the permissions
@@ -349,38 +311,6 @@ class Rumahsinggah extends CI_Controller {
 	    if(!$this->upload->do_upload('modal_foto_rumahsinggah')) {
 	      
 	        $data['inputerror'][] = 'modal_foto_rumahsinggah';
-	        $data['error_string'][] = 'Upload error: '.$this->upload->display_errors('',''); //show ajax error
-	        $data['status'] = FALSE;
-	        echo json_encode($data);
-	        exit();
-	    }
-	    return $this->upload->data('file_name');
-	}
-
-	private function _do_upload2($mc_id, $tanggal, $file) {
-	    set_time_limit(0);
-	    ini_set('max_execution_time', 0);
-	    ini_set('memory_limit', '-1');
-	    ini_set('max_input_time', 3600);
-	    
-	    if(!is_dir("uploads/rumahsinggah/")) {
-	        mkdir("uploads/rumahsinggah/");
-	    }
-
-	    $config['upload_path']          = 'uploads/rumahsinggah/';
-	    if(is_file($config['upload_path']))
-		{
-		    chmod($config['upload_path'], 777); ## this should change the permissions
-		}
-	    $config['allowed_types']        = 'jpg|jpeg|png|JPG|JPEG|PNG';
-	    $config['max_size']             = 2*1024; //set max size allowed in Kilobyte
-	    $config['file_name']            = $file; //just milisecond timestamp fot unique name
-	    
-	    $this->load->library('upload', $config);
-	    $this->upload->initialize($config);
-	    if(!$this->upload->do_upload('modal_foto_rumahsinggah2')) {
-	      
-	        $data['inputerror'][] = 'modal_foto_rumahsinggah2';
 	        $data['error_string'][] = 'Upload error: '.$this->upload->display_errors('',''); //show ajax error
 	        $data['status'] = FALSE;
 	        echo json_encode($data);

@@ -20,8 +20,7 @@
   <div class="login_page">
   <div class="error">
   <i class="fa fa-exclamation-triangle"></i>	
-  <div class="img-responsive"><img src="<?php echo base_url()?>assets/images/error404.svg"> </div>
-  <h5>Maaf halaman yang kamu tuju tidak tersedia :( </h5> 
+  <div class="">404</div><h2>Page not found!</h2>
   <form action="javascript:history.back()">
         <button class="btn btn-primary">Back</button>
     </form>

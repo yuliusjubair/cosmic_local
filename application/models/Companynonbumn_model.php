@@ -97,20 +97,6 @@ class Companynonbumn_model extends CI_Model {
         return $query->row();
     }
 
-    public function get_byid_detail($id) {
-        $this->db_read->select("a.*, mc.ms_name jenis, mpro.mpro_name provinsi, mkab.mkab_name kota, tpa.tbpa_nama_pj, tbpa_no_tlp_pj, tbpa_email_pj")
-        ->from("master_company a")
-        ->join('master_sektor mc', 'mc.ms_id = a.mc_ms_id', 'left')
-         ->join('master_provinsi mpro', 'mpro.mpro_id = a.mc_prov_id','left')
-            ->join('master_kabupaten mkab', 'mkab.mkab_id = a.mc_kota_id and mkab.mkab_mpro_id=mpro.mpro_id','left')
-            ->join('table_pengajuan_atestasi tpa', 'tbpa_mc_id = a.mc_id', 'left')
-        ->where('a.mc_id',$id);
-        // ->order_by('tpa.tbpa_id desc');
-        $query = $this->db_read->get();
-        
-        return $query->row();
-    }
-
     function cosmic_index_minggu_ini($mc_id){
          $sql = $this->db->query("SELECT
                         a.v_mc_id,

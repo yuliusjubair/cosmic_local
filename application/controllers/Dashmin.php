@@ -247,7 +247,7 @@ class Dashmin extends CI_Controller {
             CURLOPT_CUSTOMREQUEST => "GET",
         ));
 
-        $response = curl_exec($curl);
+        echo $response = curl_exec($curl);
         //var_dump($response);die;
         curl_close($curl);
         //$responsex = [];

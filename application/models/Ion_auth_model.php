@@ -176,6 +176,7 @@ class Ion_auth_model extends CI_Model
 		$this->load->helper('cookie');
 		$this->load->helper('date');
 		$this->lang->load('ion_auth');
+		$this->load->model('master_model');
 
 		//initialize db tables data
 		$this->tables  = $this->config->item('tables', 'ion_auth');
@@ -373,6 +374,24 @@ class Ion_auth_model extends CI_Model
 	 * @return void
 	 * @author Anthony Ferrera
 	 **/
+
+	public function set_after_login($id)
+	{
+		$this->db->set('flag_login', '1');
+		$this->db->set('last_login_time', date("Y-m-d H:i:s"));
+		$this->db->where('id', $id);
+		$this->db->update('app_users');
+		$this->master_model->set_log_login($id);
+	}
+
+	public function set_after_logout($id)
+	{
+		$this->db->set('flag_login', '0');
+		$this->db->set('last_login_time', null);
+		$this->db->where('id', $id);
+		$this->db->update('app_users');
+	}
+
 	public function salt()
 	{
 
@@ -984,7 +1003,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login, mc_id')
+		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login')
 		                  ->where($this->identity_column, $identity)
 		                  ->limit(1)
 		    			  ->order_by('id', 'desc')
@@ -1751,9 +1770,8 @@ class Ion_auth_model extends CI_Model
 		    'username'             => $user->username,
 		    'email'                => $user->email,
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
-		    'old_last_login'       => $user->last_login,
-		    'mc_id'				   => $user->mc_id
- 		);
+		    'old_last_login'       => $user->last_login
+		);
 
 		$this->session->set_userdata($session_data);
 
@@ -1837,7 +1855,7 @@ class Ion_auth_model extends CI_Model
 
 		//get the user
 		$this->trigger_events('extra_where');
-		$query = $this->db->select($this->identity_column.', id, username, email, last_login, mc_id')
+		$query = $this->db->select($this->identity_column.', id, username, email, last_login')
 		                  ->where($this->identity_column, get_cookie($this->config->item('identity_cookie_name', 'ion_auth')))
 		                  ->where('remember_code', get_cookie($this->config->item('remember_cookie_name', 'ion_auth')))
 		                  ->limit(1)

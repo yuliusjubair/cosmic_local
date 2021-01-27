@@ -66,7 +66,6 @@ class Mperimeter extends CI_Controller {
 	        $row[] = $no;
 	        $row[] = $mperimeter->mr_name;
 	        $row[] = $mperimeter->mpm_name;
-	        $row[] = $mperimeter->jml_lvl. " lantai";
 	        $row[] = $mperimeter->mpro_name;
 	        $row[] = $mperimeter->mkab_name;
 	        $row[] = $url_detail;

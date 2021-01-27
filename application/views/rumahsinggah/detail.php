@@ -6,55 +6,45 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/datepicker/css/datepicker.css"/> 
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/datepicker/js/bootstrap-datepicker.js"></script>
 <div class="row">
-    <div class="col d-flex justify-content-center">
-        <div class="col-7 col-md-7 col-lg-7">
-        <div class="card">
+<div class="col-8 col-md-8 col-lg-8">
+<div class="card">
           <!-- <div class="card-header">
             <h4>Check</h4>
           </div> -->
-
           <div class="card-body"><!--  style="margin: 10px auto;" -->
             <div class="form-group">
-                <div class="col-12 col-sm-12 text-right">
+                <div class="row pull-right">
               <?php 
               if($update==1){
-                echo '<a class="btn btn-lg btn-primary bg-transparent" href="javascript:void(0)" title="Edit"
-                onclick="edit_rumahsinggah('."'".$row->id."'".')" style="color:blue">
+                echo '<a class="btn btn-lg btn-primary" href="javascript:void(0)" title="Edit"
+                onclick="edit_rumahsinggah('."'".$row->id."'".')">
                 <i class="ace-icon fa fa-pencil bigger-120"></i>Edit</a>';
               }
               
               if($delete==1){
-                echo '&nbsp;&nbsp;&nbsp;<a class="btn btn-lg btn-danger bg-transparent" href="javascript:void(0)" title="Delete"
-                onclick="delete_rumahsinggah('."'".$row->id."'".')" style="color:red">
+                echo '&nbsp;<a class="btn btn-lg btn-danger" href="javascript:void(0)" title="Delete"
+                onclick="delete_rumahsinggah('."'".$row->id."'".')">
                 <i class="ace-icon fa fa-trash bigger-120"></i>Delete</a>';
               }
               ?><br />
                 </div>
-            </div>
-            <div class="form-group">
-             <div class="col-12 col-md-12 col-lg-12">
               <div class="gallery gallery-md gutters-sm">'
-                    <?php $image1 = base_url('/uploads/rumahsinggah/'.str_replace(" ", "_", $row->file));
+                <div class="col-8 col-md-8 col-lg-12">
+                    <?php $image1 = base_url('/upload/rumahsinggah/'.$row->mc_id.'/'.date('Y-m-d', strtotime($row->date_insert)).'/'.$row->file);
                     //$image1 = base_url().'assets/login/left_bg_font.png';
                     ?> 
                     <div class="gallery-item" data-image="<?php echo $image1?>" data-title="Image 1" href="<?php echo $image1?>" title="Image 1" 
                         style="background-image: url('<?php echo $image1?>');"></div>
                     
-                    <?php $image2 = base_url('/uploads/rumahsinggah/'.str_replace(" ", "_", $row->file2));
-                    //$image1 = base_url().'assets/login/left_bg_font.png';
-                    ?> 
-                    <div class="gallery-item" data-image="<?php echo $image2?>" data-title="Image 2" href="<?php echo $image2?>" title="Image 1" 
-                        style="background-image: url('<?php echo $image2?>');"></div>
              
                 </div>
-                
                <div class="gallery-item gallery-hide" data-image="<?php echo $image1?>" data-title="Image 9" href="<?php echo $image1?>" title="Image 9" style="background-image: url('<?php echo $image1?>')"></div>
             </div>
 
              <div class="col-6 col-sm-4">
                     <h3><?php echo $row->nama_rumahsinggah?></h3>
                 </div>
-                <div class="col-6 col-sm-10">
+                <div class="col-6 col-sm-12">
                     <h6><b>alamat : <?php echo $row->alamat?></b></h6>
                 </div>
                  <div class="col-6 col-sm-8">
@@ -63,18 +53,18 @@
                  <div class="col-6 col-sm-8">
                     <h7>Ruangan Tersedia : </h7> <h6><?php echo $row->ruangan_available?> Ruangan</h6>
                 </div>
-                <!--  <div class="col-6 col-sm-8">
+                 <div class="col-6 col-sm-8">
                     <h7>Nama PIC : </h7> <h6><?php echo $row->pic_nik?></h6>
                 </div>
                 <div class="col-6 col-sm-8">
                     <h7>No Kontak PIC : </h7> <h6><?php echo $row->pic_kontak?></h6>
-                </div> -->
+                </div>
                  <div class="col-8 col-sm-6">
                     <h7>
                     Kriteria Pasien yang diterima : </h7><br />
                     <h6>
                     <?php 
-                    if(strlen($row->kriteria_id)>2){
+                    if(!empty($row->kriteria_id)){
                         $sql = $this->db->query("SELECT * FROM master_kriteria_orang
                           WHERE id in ($row->kriteria_id)
                           ORDER BY id ASC");
@@ -92,11 +82,10 @@
                 </div>
                 <div class="col-8 col-sm-6">
                     <h7>
-                    Jenis Kasus yang diterima: </h7><br />
+                    Jenis Kasus : </h7><br />
                     <h6>
                     <?php 
-                        if(strlen($row->jenis_kasus)>2)
-                        {
+                        if(!empty($row->jenis_kasus)){
                         $sql = $this->db->query("SELECT * FROM master_status_kasus
                           WHERE msk_id in ($row->jenis_kasus)
                           ORDER BY msk_id ASC");
@@ -107,8 +96,6 @@
                             $no++;
                             }
                           } 
-                      }else{
-                        echo "-<br />";
                       }
                     ?>
                     </h6>
@@ -118,7 +105,7 @@
                     Fasilitas : </h7><br />
                     <h6>
                     <?php 
-                        /*if(!empty($row->fas_rumah_id)){
+                        if(!empty($row->fas_rumah_id)){
                         $sql = $this->db->query("SELECT * FROM master_fasilitas_rumah
                           WHERE id in ($row->fas_rumah_id)
                           ORDER BY id ASC");
@@ -129,56 +116,15 @@
                             $no++;
                             }
                           } 
-                         } */
-
-                          if(strlen($row->fas_rumah_id)>2){
-                                $sql = $this->db->query("SELECT * FROM master_fasilitas_rumah
-                                  WHERE id in ($row->fas_rumah_id)
-                                  ORDER BY id ASC");
-                                if($sql->num_rows()>0){
-                                    echo '<table>';
-                                    echo '<tr>';
-                                        $numrows = $sql->num_rows();
-                                        $col = 2;
-                                        //for($i = 0; $i < $numrows; $i++) {
-                                        $no=0;
-                                        $i=1;
-                                        foreach ($sql->result() as $key => $value) {
-                                        $name = $value->jenis;
-                                        
-                                            if($no % $col == 0){
-                                                echo '</tr><tr>';
-                                            }
-                                            echo '<td valign="top">&nbsp;<i class="ace-icon fa fa-circle"></i></td>';
-                                            echo '<td>'.$name.'</td>';
-                                            $i++;
-                                            $no++;
-                                        }
-                                    echo '</tr>';
-                                    echo '</table>';
-                                }
-                            }
+                         } 
                     ?>
                     </h6>
                 </div>
-                <div class="col-12 col-sm-10">
-                    <h7>Keterangan Lain : </h7><br /><h6><?php echo $row->keterangan?></h6>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <h7>PIC : </h7><br /><h6><?php echo $row->pic_nik?></h6>
-                        </div>
-                        <div class="col">
-                            <h7>PIC Kontak: </h7><br /><h6><?php echo $row->pic_kontak?></h6>
-                        </div>
-                    </div>
-                </div>
-                                <!-- <div class="col-8 col-sm-10">
+                <!-- <div class="col-8 col-sm-10">
                     <?php
                         echo '<table>';
                         echo '<tr>';
-                            $numrows = 3;
+                            $numrows = 6;
                             $col = 2;
                             for($i = 0; $i < $numrows; $i++) {
                             $name = "name";
@@ -196,8 +142,7 @@
                 </div> -->
           </div>
         </div>
-      </div>
-    </div>
+</div>
 </div>
 <script type="text/javascript">
 function cancel() {

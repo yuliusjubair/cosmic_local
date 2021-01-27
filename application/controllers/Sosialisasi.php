@@ -392,14 +392,7 @@ class Sosialisasi extends CI_Controller {
 	}
 
 	public function _do_upload_rk($mc_id) {
-	    if(!is_dir("uploads/rencanakerja/")) {
-	        mkdir("uploads/rencanakerja/");
-	    }
 	    $config['upload_path']          = 'uploads/rencanakerja/';
-	    if(is_file($config['upload_path']))
-		{
-		    chmod($config['upload_path'], 777); ## this should change the permissions
-		}
 	    $config['allowed_types']        = 'pdf';
 	    $config['max_size']             = 30*1024; //set max size allowed in Kilobyte
 	    $config['file_name']            = round(microtime(true) * 1000); //just milisecond timestamp fot unique name
