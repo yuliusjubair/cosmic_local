@@ -114,19 +114,43 @@
   padding: 20px 25px 10px;
   }*/
 </style>
-<!-- <?php
-echo "<pre>";
-print_r($haloo);
-echo "</pre>";
-?> -->
 <?php
-// for ($i=0; $i < 14; $i++) { 
-// 	$date = new DateTime(date('Y-m-d H:i:s'));
-// 	$minus = 13 - $i;
-// 	$date->modify('-'.$minus.' day');
-// 	echo $date->format('Y-m-d')."<br>";
-// }
-
+	$data_server = 	'[
+			{
+				"server_name" : "Server 1",
+				"server_presentase_usage" : "10",
+				"cpu" : [
+					{
+						"Cpu1" : "5",
+						"Cpu2" : "10",
+						"Cpu3" : "15"
+					}
+				],
+				"disk_free" : "20",
+				"disk_total" : "100",
+				"disk_percentase_usage" : "20",
+				"memory_free" : "500",
+				"memory_total" : "1000",
+				"memory_percentase_usage" : "50"	
+			},
+			{
+				"server_name" : "Server 2",
+				"server_presentase_usage" : "20",
+				"cpu" : [
+					{
+						"Cpu1" : "5",
+						"Cpu2" : "10",
+						"Cpu3" : "15"
+					}
+				],
+				"disk_free" : "20",
+				"disk_total" : "100",
+				"disk_percentase_usage" : "20",
+				"memory_free" : "500",
+				"memory_total" : "1000",
+				"memory_percentase_usage" : "50"
+			}
+		]';
 ?>
 <button class="btn btn-primary mb-3 align-items-center">
 	<img src="<?php echo base_url(); ?>assets/images/reload.png"/>
@@ -254,6 +278,74 @@ echo "</pre>";
 		</div>
 	</div>
 </div>
+<?php
+	$json  = json_decode($data_server, true);
+	foreach ($json as $key => $value) {		
+?>
+<div class="col-md-6">
+	<div class="card card-statistic-1">
+		<div class="card-wrap">
+			<div class="card-body pt-4">
+				<div class="row justify-content-between">
+					<p class="title-cpu">Nama Server <span class="sub-title-cpu">(<?php echo $value['server_name']; ?>)</span></p>
+					<p>Usage: <?php echo $value['server_presentase_usage']; ?>% <img data-toggle="collapse" data-target=".<?php echo str_replace(" ","", $value['server_name']); ?>" src="<?php echo base_url(); ?>assets/images/arrow-down.png"/></p>
+				</div>
+				<div class="<?php echo str_replace(" ","", $value['server_name']); ?> collapse show">
+					<?php
+						foreach ($value['cpu'] as $key_cpu => $val_cpu) {
+							foreach ($val_cpu as $a => $b) {														
+					?>
+					<div class="row justify-content-between">
+						<p><?php echo $a; ?></p>
+						<div class="d-flex flex-row align-items-center">
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $b; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $b; ?>%">
+								  <?php echo $b; ?>%
+								</div>
+							</div>
+							<p class="percent-cpu"><?php echo $b; ?>%</p>					
+						</div>
+					</div>			
+					<?php
+						}
+							}
+					?>		
+					<div class="row justify-content-between">
+						<div>
+							<p>Disk Usage</p>
+							<p class="value-cpu"><?php echo $value['disk_free'].'/'.$value['disk_total']; ?></p>
+						</div>
+						<div class="d-flex flex-row align-items-center">
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $value['disk_percentase_usage']; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $value['disk_percentase_usage']; ?>%">
+								  <?php echo $value['disk_percentase_usage']; ?>%
+								</div>
+							</div>
+							<p class="percent-cpu"><?php echo $value['disk_percentase_usage']; ?>%</p>
+						</div>				
+					</div>
+					<div class="row justify-content-between">
+						<div>
+							<p class="mt-2">Memory Usage</p>
+							<p class="value-cpu"><?php echo $value['memory_free'].'/'.$value['memory_total']; ?></p>
+						</div>
+						<div class="d-flex flex-row align-items-center">
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $value['memory_percentase_usage']; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $value['memory_percentase_usage']; ?>%">
+								  <?php echo $value['memory_percentase_usage']; ?>%
+								</div>
+							</div>
+							<p class="percent-cpu"><?php echo $value['memory_percentase_usage']; ?>%</p>
+						</div>					
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+</div>
+<?php		
+	}
+?>
 <div class="modal fade" id="modal_form_dashboard" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
